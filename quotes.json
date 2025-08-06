@@ -2,16 +2,16 @@
   {
     "id": "1",
     "text": "Guess I smiled a bit too often so they thought that I was fine, but inside I'm breaking open, wishing someone saw the signs.",
-    "author": "finn",
+    "author": "Finn",
     "tags": ["emotional", "introspection"],
-    "fav": false,
+    "fav": true,
     "created": 1695000000000,
     "updated": 1695000000000
   },
   {
     "id": "2",
     "text": "YRUAQT",
-    "author": "charley yang",
+    "author": "Charley Yang",
     "source": "I wish",
     "tags": ["short", "song"],
     "fav": false,
@@ -30,7 +30,7 @@
   {
     "id": "4",
     "text": "Grab my hand take my heart and look me in the eyes Stay with me and smile for me until the end of time.",
-    "author": "caio clin",
+    "author": "Caio Clin",
     "source": "I met a girl",
     "tags": ["love", "promise"],
     "fav": false,

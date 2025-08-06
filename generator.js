@@ -1,0 +1,72 @@
+const newQuotes = [
+  {
+    "id": "1",
+    "text": "Guess I smiled a bit too often so they thought that I was fine, but inside I'm breaking open, wishing someone saw the signs.",
+    "author": "finn",
+    "tags": ["emotional", "introspection"],
+    "fav": false,
+    "created": 1695000000000,
+    "updated": 1695000000000
+  },
+  {
+    "id": "2",
+    "text": "YRUAQT",
+    "author": "charley yang",
+    "source": "I wish",
+    "tags": ["short", "song"],
+    "fav": false,
+    "created": 1695000000001,
+    "updated": 1695000000001
+  },
+  {
+    "id": "3",
+    "text": "I don't know what we are, and maybe we never will be but I know what I feel and I know it is real even if I am the only one who feels it.",
+    "author": "Finn",
+    "tags": ["love", "real"],
+    "fav": false,
+    "created": 1695000000002,
+    "updated": 1695000000002
+  },
+  {
+    "id": "4",
+    "text": "Grab my hand take my heart and look me in the eyes Stay with me and smile for me until the end of time.",
+    "author": "caio clin",
+    "source": "I met a girl",
+    "tags": ["love", "promise"],
+    "fav": false,
+    "created": 1695000000003,
+    "updated": 1695000000003
+  }
+];
+
+document.getElementById('loadAndUpdateBtn').addEventListener('click', async () => {
+  const status = document.getElementById('status');
+  status.textContent = 'Loading view.json...';
+
+  try {
+    const response = await fetch('view.json');
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const oldData = await response.json();
+
+    // Replace old quotes with new quotes
+    const updatedData = newQuotes;
+
+    const updatedJsonStr = JSON.stringify(updatedData, null, 2);
+
+    const blob = new Blob([updatedJsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'view_updated.json';
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    status.textContent = 'Updated JSON ready. Download should start automatically.';
+  } catch (err) {
+    status.textContent = `Error: ${err.message}`;
+    console.error(err);
+  }
+});
