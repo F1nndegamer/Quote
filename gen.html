@@ -1,32 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Quote JSON Merger & Generator</title>
-<link rel="stylesheet" href="generator.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quote Merger</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <h1>Quote Merger Tool</h1>
+  <p id="status">Loading...</p>
 
-<h1>Quote JSON Merger & Generator</h1>
+  <textarea id="oldJsonInput" placeholder="Existing quotes.json" rows="10" readonly></textarea>
 
-<section>
-  <h2>Step 1: Paste your existing JSON here</h2>
-  <textarea id="oldJsonInput" placeholder='Paste existing JSON here...' rows="10"></textarea>
-</section>
-
-<section>
-  <h2>Step 2: Add new quotes</h2>
+  <h2>Add New Quotes</h2>
   <div id="newQuotesContainer"></div>
-  <button id="addQuoteBtn">+ Add New Quote</button>
-</section>
+  <button id="addQuoteBtn">➕ Add Quote</button>
 
-<section>
-  <button id="mergeBtn">Merge & Download JSON</button>
-  <div id="status"></div>
-</section>
+  <br><br>
+  <button id="mergeBtn">📋 Merge & Copy to Clipboard</button>
 
-<script src="generator.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>

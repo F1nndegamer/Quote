@@ -4,34 +4,46 @@ const addQuoteBtn = document.getElementById('addQuoteBtn');
 const mergeBtn = document.getElementById('mergeBtn');
 const status = document.getElementById('status');
 
-// Load quotes.json automatically on page load
+// Load quotes.json on page load
 window.addEventListener('load', async () => {
   status.textContent = 'Loading quotes.json...';
   try {
     const response = await fetch('quotes.json');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    const jsonData = await response.json();
-    oldJsonInput.value = JSON.stringify(jsonData, null, 2);
-    status.textContent = 'Loaded existing quotes.json';
+    const data = await response.json();
+    oldJsonInput.value = JSON.stringify(data, null, 2);
+    status.textContent = '✅ Loaded quotes.json';
   } catch (err) {
     status.style.color = 'red';
-    status.textContent = `Failed to load quotes.json: ${err.message}`;
+    status.textContent = `❌ Failed to load quotes.json: ${err.message}`;
   }
 });
 
-function createQuoteForm(id) {
+// Create a new quote form
+function createQuoteForm() {
   const div = document.createElement('div');
   div.className = 'quoteForm';
 
   div.innerHTML = `
-    <label>Text:<textarea rows="2" required></textarea></label>
-    <label>Author:<input type="text" /></label>
-    <label>Tags (comma separated):<input type="text" /></label>
-    <label>Favorite (true/false):<input type="text" value="false" /></label>
-    <label>Created (select date):<input type="date" /></label>
-    <label>Updated (select date):<input type="date" /></label>
+    <label>Text:<textarea name="text" rows="2" required></textarea></label>
+    <label>Author:<input type="text" name="author" /></label>
+    <label>Tags (comma separated):<input type="text" name="tags" /></label>
+    <label>Created:<input type="date" name="created" /></label>
+    <label>Updated:<input type="date" name="updated" /></label>
+
+    <div class="toggle-container">
+      <span>Favorite:</span>
+      <div class="toggle" title="Click to toggle"></div>
+    </div>
+
     <button class="removeBtn" type="button">Remove</button>
   `;
+
+  // Add toggle logic
+  const toggle = div.querySelector('.toggle');
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('active');
+  });
 
   div.querySelector('.removeBtn').addEventListener('click', () => {
     div.remove();
@@ -41,11 +53,11 @@ function createQuoteForm(id) {
 }
 
 addQuoteBtn.addEventListener('click', () => {
-  const form = createQuoteForm(Date.now());
+  const form = createQuoteForm();
   newQuotesContainer.appendChild(form);
 });
 
-// Generate new ID helper
+// Generate unique ID
 function generateId(existingIds) {
   let id;
   do {
@@ -55,50 +67,42 @@ function generateId(existingIds) {
 }
 
 mergeBtn.addEventListener('click', async () => {
+  status.style.color = '';
   status.textContent = '';
+
   let oldQuotes;
   try {
     oldQuotes = JSON.parse(oldJsonInput.value.trim() || '[]');
     if (!Array.isArray(oldQuotes)) throw new Error('Old JSON must be an array');
   } catch (e) {
     status.style.color = 'red';
-    status.textContent = 'Error parsing old JSON: ' + e.message;
+    status.textContent = '❌ Error parsing old JSON: ' + e.message;
     return;
   }
 
   const existingIds = new Set(oldQuotes.map(q => q.id));
-
   const newQuotes = [];
+
   const forms = newQuotesContainer.querySelectorAll('.quoteForm');
   for (const form of forms) {
-    const text = form.querySelector('textarea').value.trim();
+    const text = form.querySelector('textarea[name="text"]').value.trim();
     if (!text) continue;
 
-    const author = form.querySelector('input[type="text"]').value.trim() || 'Unknown';
-    const tagsRaw = form.querySelectorAll('input[type="text"]')[1].value.trim();
-    const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(t => t.length) : [];
+    const author = form.querySelector('input[name="author"]').value.trim() || 'Unknown';
+    const tagsRaw = form.querySelector('input[name="tags"]').value.trim();
+    const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(t => t) : [];
 
-    let favRaw = form.querySelectorAll('input[type="text"]')[2].value.trim().toLowerCase();
-    const fav = (favRaw === 'true');
+    const createdInput = form.querySelector('input[name="created"]').value;
+    const updatedInput = form.querySelector('input[name="updated"]').value;
+    const created = createdInput ? new Date(createdInput).getTime() : Date.now();
+    const updated = updatedInput ? new Date(updatedInput).getTime() : created;
 
-    const createdDateInput = form.querySelector('input[type="date"]:nth-of-type(1)').value;
-    const updatedDateInput = form.querySelector('input[type="date"]:nth-of-type(2)').value;
-
-    const created = createdDateInput ? new Date(createdDateInput).getTime() : Date.now();
-    const updated = updatedDateInput ? new Date(updatedDateInput).getTime() : created;
+    const fav = form.querySelector('.toggle').classList.contains('active');
 
     const id = generateId(existingIds);
     existingIds.add(id);
 
-    newQuotes.push({
-      id,
-      text,
-      author,
-      tags,
-      fav,
-      created,
-      updated
-    });
+    newQuotes.push({ id, text, author, tags, fav, created, updated });
   }
 
   const combined = oldQuotes.concat(newQuotes);
@@ -107,9 +111,9 @@ mergeBtn.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(jsonStr);
     status.style.color = 'green';
-    status.textContent = `✅ Merged ${oldQuotes.length} old quotes with ${newQuotes.length} new quotes.\n📋 JSON copied to clipboard!`;
+    status.textContent = `✅ Copied merged JSON with ${newQuotes.length} new quotes to clipboard`;
   } catch (err) {
     status.style.color = 'red';
-    status.textContent = '❌ Failed to copy JSON to clipboard: ' + err.message;
+    status.textContent = '❌ Failed to copy to clipboard: ' + err.message;
   }
 });

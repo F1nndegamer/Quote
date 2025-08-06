@@ -1,60 +1,92 @@
 body {
-  font-family: Arial, sans-serif;
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 0 10px;
+  font-family: system-ui, sans-serif;
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  color: #333;
 }
+
 h1, h2 {
-  margin-bottom: 10px;
+  color: #222;
 }
+
 textarea {
   width: 100%;
   font-family: monospace;
   font-size: 14px;
-  padding: 10px;
-  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
 }
-#newQuotesContainer {
-  margin: 15px 0;
-  border: 1px solid #ccc;
-  padding: 10px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.quoteForm {
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
-}
-.quoteForm:last-child {
-  border-bottom: none;
-}
-.quoteForm label {
+
+label {
   display: block;
-  margin-top: 8px;
+  margin: 0.5rem 0;
 }
-.quoteForm input[type="text"],
-.quoteForm input[type="number"],
-.quoteForm textarea {
+
+input, textarea {
   width: 100%;
-  padding: 6px;
   box-sizing: border-box;
 }
-.quoteForm .removeBtn {
-  margin-top: 5px;
+
+#newQuotesContainer .quoteForm {
+  padding: 1rem;
+  background: white;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.removeBtn {
   background: #f44336;
   color: white;
+  margin-top: 0.5rem;
   border: none;
-  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.removeBtn:hover {
+  background: #d32f2f;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.toggle {
+  width: 40px;
+  height: 20px;
+  background: #ccc;
+  border-radius: 20px;
+  position: relative;
   cursor: pointer;
 }
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: pointer;
+
+.toggle::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: 0.2s;
 }
-#status {
-  margin-top: 20px;
-  color: green;
-  white-space: pre-wrap;
+
+.toggle.active {
+  background: #4caf50;
+}
+
+.toggle.active::before {
+  left: 21px;
 }
