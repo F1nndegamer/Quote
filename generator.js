@@ -1,72 +1,119 @@
-const newQuotes = [
-  {
-    "id": "1",
-    "text": "Guess I smiled a bit too often so they thought that I was fine, but inside I'm breaking open, wishing someone saw the signs.",
-    "author": "finn",
-    "tags": ["emotional", "introspection"],
-    "fav": false,
-    "created": 1695000000000,
-    "updated": 1695000000000
-  },
-  {
-    "id": "2",
-    "text": "YRUAQT",
-    "author": "charley yang",
-    "source": "I wish",
-    "tags": ["short", "song"],
-    "fav": false,
-    "created": 1695000000001,
-    "updated": 1695000000001
-  },
-  {
-    "id": "3",
-    "text": "I don't know what we are, and maybe we never will be but I know what I feel and I know it is real even if I am the only one who feels it.",
-    "author": "Finn",
-    "tags": ["love", "real"],
-    "fav": false,
-    "created": 1695000000002,
-    "updated": 1695000000002
-  },
-  {
-    "id": "4",
-    "text": "Grab my hand take my heart and look me in the eyes Stay with me and smile for me until the end of time.",
-    "author": "caio clin",
-    "source": "I met a girl",
-    "tags": ["love", "promise"],
-    "fav": false,
-    "created": 1695000000003,
-    "updated": 1695000000003
-  }
-];
+const oldJsonInput = document.getElementById('oldJsonInput');
+const newQuotesContainer = document.getElementById('newQuotesContainer');
+const addQuoteBtn = document.getElementById('addQuoteBtn');
+const mergeBtn = document.getElementById('mergeBtn');
+const status = document.getElementById('status');
 
-document.getElementById('loadAndUpdateBtn').addEventListener('click', async () => {
-  const status = document.getElementById('status');
+// Load view.json automatically on page load
+window.addEventListener('load', async () => {
   status.textContent = 'Loading view.json...';
-
   try {
     const response = await fetch('view.json');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-    const oldData = await response.json();
-
-    // Replace old quotes with new quotes
-    const updatedData = newQuotes;
-
-    const updatedJsonStr = JSON.stringify(updatedData, null, 2);
-
-    const blob = new Blob([updatedJsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'view_updated.json';
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-    status.textContent = 'Updated JSON ready. Download should start automatically.';
+    const jsonData = await response.json();
+    oldJsonInput.value = JSON.stringify(jsonData, null, 2);
+    status.textContent = 'Loaded existing view.json';
   } catch (err) {
-    status.textContent = `Error: ${err.message}`;
-    console.error(err);
+    status.style.color = 'red';
+    status.textContent = `Failed to load view.json: ${err.message}`;
   }
+});
+
+function createQuoteForm(id) {
+  const div = document.createElement('div');
+  div.className = 'quoteForm';
+
+  div.innerHTML = `
+    <label>Text:<textarea rows="2" required></textarea></label>
+    <label>Author:<input type="text" /></label>
+    <label>Tags (comma separated):<input type="text" /></label>
+    <label>Favorite (true/false):<input type="text" value="false" /></label>
+    <label>Created (timestamp or leave blank for now):<input type="number" /></label>
+    <label>Updated (timestamp or leave blank for now):<input type="number" /></label>
+    <button class="removeBtn" type="button">Remove</button>
+  `;
+
+  div.querySelector('.removeBtn').addEventListener('click', () => {
+    div.remove();
+  });
+
+  return div;
+}
+
+addQuoteBtn.addEventListener('click', () => {
+  const form = createQuoteForm(Date.now());
+  newQuotesContainer.appendChild(form);
+});
+
+// Generate new ID helper
+function generateId(existingIds) {
+  let id;
+  do {
+    id = Date.now().toString() + Math.floor(Math.random() * 1000).toString();
+  } while (existingIds.has(id));
+  return id;
+}
+
+mergeBtn.addEventListener('click', () => {
+  status.textContent = '';
+  let oldQuotes;
+  try {
+    oldQuotes = JSON.parse(oldJsonInput.value.trim() || '[]');
+    if (!Array.isArray(oldQuotes)) throw new Error('Old JSON must be an array');
+  } catch (e) {
+    status.style.color = 'red';
+    status.textContent = 'Error parsing old JSON: ' + e.message;
+    return;
+  }
+
+  const existingIds = new Set(oldQuotes.map(q => q.id));
+
+  const newQuotes = [];
+  const forms = newQuotesContainer.querySelectorAll('.quoteForm');
+  for (const form of forms) {
+    const text = form.querySelector('textarea').value.trim();
+    if (!text) continue;
+
+    const author = form.querySelector('input[type="text"]').value.trim() || 'Unknown';
+    const tagsRaw = form.querySelectorAll('input[type="text"]')[1].value.trim();
+    const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(t => t.length) : [];
+
+    let favRaw = form.querySelectorAll('input[type="text"]')[2].value.trim().toLowerCase();
+    const fav = (favRaw === 'true');
+
+    let createdRaw = form.querySelector('input[type="number"]').value.trim();
+    const created = createdRaw ? Number(createdRaw) : Date.now();
+
+    let updatedRaw = form.querySelectorAll('input[type="number"]')[1].value.trim();
+    const updated = updatedRaw ? Number(updatedRaw) : created;
+
+    const id = generateId(existingIds);
+    existingIds.add(id);
+
+    newQuotes.push({
+      id,
+      text,
+      author,
+      tags,
+      fav,
+      created,
+      updated
+    });
+  }
+
+  const combined = oldQuotes.concat(newQuotes);
+
+  const jsonStr = JSON.stringify(combined, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'view_merged.json';
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  status.style.color = 'green';
+  status.textContent = `Merged ${oldQuotes.length} old quotes with ${newQuotes.length} new quotes.\nDownloaded "view_merged.json".`;
 });

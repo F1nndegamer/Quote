@@ -1,8 +1,51 @@
 body {
   font-family: Arial, sans-serif;
-  max-width: 600px;
+  max-width: 700px;
   margin: 40px auto;
   padding: 0 10px;
+}
+h1, h2 {
+  margin-bottom: 10px;
+}
+textarea {
+  width: 100%;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+#newQuotesContainer {
+  margin: 15px 0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.quoteForm {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+.quoteForm:last-child {
+  border-bottom: none;
+}
+.quoteForm label {
+  display: block;
+  margin-top: 8px;
+}
+.quoteForm input[type="text"],
+.quoteForm input[type="number"],
+.quoteForm textarea {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+.quoteForm .removeBtn {
+  margin-top: 5px;
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 button {
   padding: 10px 20px;
@@ -13,4 +56,5 @@ button {
 #status {
   margin-top: 20px;
   color: green;
+  white-space: pre-wrap;
 }

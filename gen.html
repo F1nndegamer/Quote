@@ -3,19 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Quote JSON Updater</title>
-<link rel="stylesheet" href="generator.css" />
+<title>Quote JSON Merger & Generator</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<h1>Quote JSON Updater</h1>
+<h1>Quote JSON Merger & Generator</h1>
 
-<p>This tool will load <code>view.json</code>, replace quotes with your new quotes, and let you download the updated JSON file.</p>
+<section>
+  <h2>Step 1: Paste your existing JSON here</h2>
+  <textarea id="oldJsonInput" placeholder='Paste existing JSON here...' rows="10"></textarea>
+</section>
 
-<button id="loadAndUpdateBtn">Load & Update Quotes</button>
+<section>
+  <h2>Step 2: Add new quotes</h2>
+  <div id="newQuotesContainer"></div>
+  <button id="addQuoteBtn">+ Add New Quote</button>
+</section>
 
-<div id="status"></div>
+<section>
+  <button id="mergeBtn">Merge & Download JSON</button>
+  <div id="status"></div>
+</section>
 
-<script src="generator.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
