@@ -1,0 +1,20 @@
+[
+  {
+    "id": "123456",
+    "text": "Design systems are opinions embedded in code.",
+    "author": "—",
+    "tags": ["design", "dev"],
+    "fav": true,
+    "created": 1690000000000,
+    "updated": 1690000000000
+  },
+  {
+    "id": "123457",
+    "text": "Work until your idols become your rivals.",
+    "author": "— Unknown",
+    "tags": ["motivation"],
+    "fav": false,
+    "created": 1691000000000,
+    "updated": 1691000000000
+  }
+]

@@ -1,99 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Stellar Echoes — My Quotes</title>
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <meta charset="UTF-8">
+  <title>Quotes by Finn</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      height: 100vh; margin: 0; background: #0b1020; color: white; font-family: sans-serif;
+    }
+    h1 { margin-bottom: 20px; }
+    .btn {
+      padding: 12px 20px; border-radius: 10px;
+      margin: 10px; font-size: 16px; cursor: pointer;
+      border: none; background: #7be1ff22; color: #7be1ff;
+      transition: 0.2s all ease-in-out;
+    }
+    .btn:hover { background: #7be1ff33; }
+  </style>
 </head>
 <body>
-
-<header>
-  <div class="brand">
-    <div class="logo">★</div>
-    <div>
-      <h1>Stellar Echoes</h1>
-      <p class="small">A simple space to save your favorite lines — add, tag, search, and revisit.</p>
-    </div>
-  </div>
-
-  <div class="controls">
-    <div class="search" title="Search quotes">
-      🔎 <input id="searchInput" placeholder="Search text, tag, or author..." />
-    </div>
-    <button id="exportBtn" class="btn">Export</button>
-    <button id="importBtn" class="btn ghost">Import</button>
-    <button id="newBtn" class="btn">+ New</button>
-  </div>
-</header>
-
-<main>
-  <div class="left" aria-label="controls column">
-    <div class="card" id="editorCard">
-      <label for="quoteText">Quote</label>
-      <textarea id="quoteText" rows="4" placeholder="Write a line you want to save..."></textarea>
-
-      <div class="small-row" style="margin-top:10px">
-        <div style="flex:1">
-          <label for="quoteAuthor">Author / Source</label>
-          <input id="quoteAuthor" type="text" placeholder="Author or context (optional)">
-        </div>
-      </div>
-
-      <div class="small-row" style="margin-top:10px">
-        <div style="flex:1">
-          <label for="quoteTags">Tags (comma separated)</label>
-          <input id="quoteTags" type="text" placeholder="e.g. dev,design,dialogue">
-        </div>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button id="saveBtn" class="btn">Save Quote</button>
-        <button id="clearBtn" class="btn ghost">Clear</button>
-      </div>
-
-      <div class="stats" style="margin-top:12px">
-        <div class="stat" id="countStat">Quotes: 0</div>
-        <div class="stat" id="favStat">Favorites: 0</div>
-        <div class="stat" id="tagsStat">Tags: —</div>
-      </div>
-    </div>
-
-    <div style="height:12px"></div>
-
-    <div class="card">
-      <strong>Tips</strong>
-      <ul style="color:var(--muted);margin-top:8px">
-        <li>Use tags to group quotes (e.g., dev, story, lines-to-use).</li>
-        <li>Export to back up or share. Import replaces your current set.</li>
-        <li>Quotes are stored locally in your browser's storage.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="right">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <div style="color:var(--muted)">Showing <span id="visibleCount">0</span> quotes</div>
-      <div>
-        <button id="sortBtn" class="btn ghost">Sort: Newest</button>
-        <button id="filterFavBtn" class="btn ghost">Show Favorites</button>
-      </div>
-    </div>
-
-    <div class="grid" id="grid"></div>
-  </div>
-</main>
-
-<footer>
-  <div style="display:flex;justify-content:space-between">
-    <div>Made for keeping your best lines. Local only (no server).</div>
-    <div class="muted">Tip: press <kbd>n</kbd> to open the new quote editor.</div>
-  </div>
-</footer>
-
-<input type="file" id="fileInput" accept="application/json" style="display:none" />
-
-<script src="app.js"></script>
+  <h1>Welcome to Stellar Echoes</h1>
+  <button class="btn" onclick="location.href='viewer.html'">📖 View Finn’s Quotes</button>
+  <button class="btn" onclick="location.href='app.html'">✍️ Make Your Own</button>
 </body>
 </html>
