@@ -4,18 +4,18 @@ const addQuoteBtn = document.getElementById('addQuoteBtn');
 const mergeBtn = document.getElementById('mergeBtn');
 const status = document.getElementById('status');
 
-// Load view.json automatically on page load
+// Load quotes.json automatically on page load
 window.addEventListener('load', async () => {
-  status.textContent = 'Loading view.json...';
+  status.textContent = 'Loading quotes.json...';
   try {
-    const response = await fetch('view.json');
+    const response = await fetch('quotes.json');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const jsonData = await response.json();
     oldJsonInput.value = JSON.stringify(jsonData, null, 2);
-    status.textContent = 'Loaded existing view.json';
+    status.textContent = 'Loaded existing quotes.json';
   } catch (err) {
     status.style.color = 'red';
-    status.textContent = `Failed to load view.json: ${err.message}`;
+    status.textContent = `Failed to load quotes.json: ${err.message}`;
   }
 });
 
@@ -109,11 +109,11 @@ mergeBtn.addEventListener('click', () => {
 
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'view_merged.json';
+  a.download = 'quotes_merged.json';
   a.click();
 
   URL.revokeObjectURL(url);
 
   status.style.color = 'green';
-  status.textContent = `Merged ${oldQuotes.length} old quotes with ${newQuotes.length} new quotes.\nDownloaded "view_merged.json".`;
+  status.textContent = `Merged ${oldQuotes.length} old quotes with ${newQuotes.length} new quotes.\nDownloaded "quotes_merged.json".`;
 });
