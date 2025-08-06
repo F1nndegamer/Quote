@@ -28,8 +28,8 @@ function createQuoteForm(id) {
     <label>Author:<input type="text" /></label>
     <label>Tags (comma separated):<input type="text" /></label>
     <label>Favorite (true/false):<input type="text" value="false" /></label>
-    <label>Created (timestamp or leave blank for now):<input type="number" /></label>
-    <label>Updated (timestamp or leave blank for now):<input type="number" /></label>
+    <label>Created (select date):<input type="date" /></label>
+    <label>Updated (select date):<input type="date" /></label>
     <button class="removeBtn" type="button">Remove</button>
   `;
 
@@ -54,7 +54,7 @@ function generateId(existingIds) {
   return id;
 }
 
-mergeBtn.addEventListener('click', () => {
+mergeBtn.addEventListener('click', async () => {
   status.textContent = '';
   let oldQuotes;
   try {
@@ -81,11 +81,11 @@ mergeBtn.addEventListener('click', () => {
     let favRaw = form.querySelectorAll('input[type="text"]')[2].value.trim().toLowerCase();
     const fav = (favRaw === 'true');
 
-    let createdRaw = form.querySelector('input[type="number"]').value.trim();
-    const created = createdRaw ? Number(createdRaw) : Date.now();
+    const createdDateInput = form.querySelector('input[type="date"]:nth-of-type(1)').value;
+    const updatedDateInput = form.querySelector('input[type="date"]:nth-of-type(2)').value;
 
-    let updatedRaw = form.querySelectorAll('input[type="number"]')[1].value.trim();
-    const updated = updatedRaw ? Number(updatedRaw) : created;
+    const created = createdDateInput ? new Date(createdDateInput).getTime() : Date.now();
+    const updated = updatedDateInput ? new Date(updatedDateInput).getTime() : created;
 
     const id = generateId(existingIds);
     existingIds.add(id);
@@ -102,18 +102,14 @@ mergeBtn.addEventListener('click', () => {
   }
 
   const combined = oldQuotes.concat(newQuotes);
-
   const jsonStr = JSON.stringify(combined, null, 2);
-  const blob = new Blob([jsonStr], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
 
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'quotes_merged.json';
-  a.click();
-
-  URL.revokeObjectURL(url);
-
-  status.style.color = 'green';
-  status.textContent = `Merged ${oldQuotes.length} old quotes with ${newQuotes.length} new quotes.\nDownloaded "quotes_merged.json".`;
+  try {
+    await navigator.clipboard.writeText(jsonStr);
+    status.style.color = 'green';
+    status.textContent = `✅ Merged ${oldQuotes.length} old quotes with ${newQuotes.length} new quotes.\n📋 JSON copied to clipboard!`;
+  } catch (err) {
+    status.style.color = 'red';
+    status.textContent = '❌ Failed to copy JSON to clipboard: ' + err.message;
+  }
 });
