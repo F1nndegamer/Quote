@@ -59,5 +59,17 @@
     "fav": true,
     "created": 1755734400000,
     "updated": 1755734400000
+  },
+  {
+    "id": "1754594042454165",
+    "text": "Love is like a glitch in the system — unexpected, powerful, and hard to debug.",
+    "author": "Finn",
+    "tags": [
+      "Love",
+      "Code"
+    ],
+    "fav": true,
+    "created": 1754524800000,
+    "updated": 1754524800000
   }
 ]
