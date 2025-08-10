@@ -50,17 +50,6 @@
     "updated": 1695000000003
   },
   {
-    "id": "1754495579262834",
-    "text": "ki",
-    "author": "f",
-    "tags": [
-      "fff"
-    ],
-    "fav": true,
-    "created": 1755734400000,
-    "updated": 1755734400000
-  },
-  {
     "id": "1754594042454165",
     "text": "Love is like a glitch in the system — unexpected, powerful, and hard to debug.",
     "author": "Finn",
@@ -71,5 +60,14 @@
     "fav": true,
     "created": 1754524800000,
     "updated": 1754524800000
+  },
+  {
+    "id": "1754822622991222",
+    "text": "I know how to lie,\nBut I don't know how to cope",
+    "author": "Charley Yang",
+    "tags": [],
+    "fav": false,
+    "created": 1754784000000,
+    "updated": 1754784000000
   }
 ]
