@@ -2,26 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Quotes by Finn</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      height: 100vh; margin: 0; background: #0b1020; color: white; font-family: sans-serif;
-    }
-    h1 { margin-bottom: 20px; }
-    .btn {
-      padding: 12px 20px; border-radius: 10px;
-      margin: 10px; font-size: 16px; cursor: pointer;
-      border: none; background: #7be1ff22; color: #7be1ff;
-      transition: 0.2s all ease-in-out;
-    }
-    .btn:hover { background: #7be1ff33; }
-  </style>
+  <title>Finn’s Quotes — Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="viewstyle.css">
 </head>
 <body>
-  <h1>Welcome to Stellar Echoes</h1>
-  <button class="btn" onclick="location.href='viewer.html'">📖 View Finn’s Quotes</button>
-  <button class="btn" onclick="location.href='app.html'">✍️ Make Your Own</button>
+
+  <h1>★ Finn’s Quote Collection</h1>
+  <div class="small">A hand-picked set of memorable lines</div>
+
+  <div class="grid" id="grid"></div>
+
+  <script src="viewer.js"></script>
 </body>
 </html>
